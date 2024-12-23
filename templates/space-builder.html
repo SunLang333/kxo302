@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Space-Builder</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/public.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/space-builder.css') }}">
@@ -13,25 +13,30 @@
 
 <body>
 
+  <!-- Loading Overlay -->
+  <div id="loading-overlay" class="loading-overlay" role="alert" aria-live="assertive">
+    <div class="spinner"></div>
+    <p>Generating your model...</p>
+  </div>
+
   <div class="page-wrapper">
     <header>
       <div class="container">
-          <div class="header-content">
-              <!-- Left Navigation -->
-              <nav class="nav-left">
-                  <a href="/" class="nav-item">AR Home</a>
-                  <a href="/spacebuilder" class="nav-item active">
-                      Space Builder
-                  </a>
-                  <a href="/products" class="nav-item">
-                      Products
-                  </a>
-                  <a href="/download" class="nav-item">
-                      Download
-                  </a>
-              </nav>
-
-          </div>
+        <div class="header-content">
+          <!-- Left Navigation -->
+          <nav class="nav-left">
+            <a href="/" class="nav-item">AR Home</a>
+            <a href="/spacebuilder" class="nav-item active">
+              Space Builder
+            </a>
+            <a href="/products" class="nav-item">
+              Products
+            </a>
+            <a href="/download" class="nav-item">
+              Download
+            </a>
+          </nav>
+        </div>
       </div>
     </header>
 
@@ -54,14 +59,14 @@
         <img src="{{ url_for('static', filename='images/img/1.png') }}" alt="Cart Banner" class="banner-bg">
         <h1 class="banner-title">Transform Your Space into a Dream Home</h1>
       </section>
-      
+
       <!-- Content Container -->
       <div class="content-container">
         <!-- Left Sidebar with Form -->
         <aside class="sidebar">
           <h2 class="sidebar-title">Select Background</h2>
           <div class="box">
-            <form action="{{ url_for('generate') }}" method="POST">
+            <form id="prompt-form" action="{{ url_for('generate') }}" method="POST">
               <div class="form-group">
                 <label for="prompt">Enter your prompt:</label>
                 <input type="text" id="prompt" name="prompt" class="form-control" placeholder="e.g., A modern living room with smart lighting" required>
@@ -93,6 +98,28 @@
     </main>
   </div>
 
+  <!-- JavaScript to Handle Loading Overlay and Form Submission -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const form = document.getElementById("prompt-form");
+      const loadingOverlay = document.getElementById("loading-overlay");
+      const submitButton = form.querySelector(".btn-submit");
+
+      // Reset button state on page load
+      submitButton.disabled = false;
+      submitButton.textContent = "Generate Model";
+
+      form.addEventListener("submit", function () {
+        // Show the loading overlay when the form is submitted
+        loadingOverlay.style.display = "flex";
+
+        // Disable the submit button to prevent multiple submissions
+        submitButton.disabled = true;
+        submitButton.textContent = "Generating...";
+      });
+    });
+  </script>
+
   <script>
     // Set up scene, camera, and renderer
     const scene = new THREE.Scene();
@@ -110,7 +137,10 @@
       const loader = new THREE.PLYLoader();
       loader.load(url, function (geometry) {
         geometry.computeVertexNormals();
+
+        // Use MeshBasicMaterial with vertexColors enabled
         const material = new THREE.MeshBasicMaterial({ vertexColors: THREE.VertexColors });
+
         const mesh = new THREE.Mesh(geometry, material);
         scene.add(mesh);
       });
@@ -135,18 +165,18 @@
 
     // Animation loop
     function animate() {
-        requestAnimationFrame(animate);
+      requestAnimationFrame(animate);
 
-        scene.traverse(function (object) {
-          if (object.isMesh) {
-            object.rotation.x += 0.01;
-            object.rotation.y += 0.01;
-          }
-        });
+      scene.traverse(function (object) {
+        if (object.isMesh) {
+          object.rotation.x += 0.01;
+          object.rotation.y += 0.01;
+        }
+      });
 
-        renderer.render(scene, camera);
-      }
-      animate();
+      renderer.render(scene, camera);
+    }
+    animate();
   </script>
 
 </body>
