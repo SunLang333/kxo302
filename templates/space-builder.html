@@ -74,20 +74,31 @@
               <button type="submit" class="btn-submit">Generate Model</button>
             </form>
           </div>
-          <div class="category-grid">
+          <div class="category-grid" id="buttons">
+            <!-- Button for Living Room -->
             <div class="category-item">
-              <img src="{{ url_for('static', filename='images/img/7.png') }}" alt="Living room">
+              <img src="{{ url_for('static', filename='images/img/7.png') }}" alt="Living room" id="livingRoom" class="bg-button">
             </div>
+            
+            <!-- Button for Workstation -->
             <div class="category-item">
-              <img src="{{ url_for('static', filename='images/img/8.png') }}" alt="Workstation">
+              <img src="{{ url_for('static', filename='images/img/8.png') }}" alt="Studio" id="workstation" class="bg-button">
             </div>
+            
+            <!-- Button for Dining Room -->
             <div class="category-item">
-              <img src="{{ url_for('static', filename='images/img/9.png') }}" alt="Popular">
+              <img src="{{ url_for('static', filename='images/img/9.png') }}" alt="Dining room" id="diningRoom" class="bg-button">
             </div>
+            
+            <!-- Button for Bedroom -->
             <div class="category-item">
-              <img src="{{ url_for('static', filename='images/img/10.png') }}" alt="Bedroom">
+              <img src="{{ url_for('static', filename='images/img/10.png') }}" alt="Bedroom" id="bedroom" class="bg-button">
             </div>
+          
+            <!-- 3D Viewer Canvas -->
+            <canvas id="3dViewer"></canvas>
           </div>
+          
         </aside>
 
         <!-- Main Content Area -->
@@ -127,6 +138,45 @@
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     const renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
+
+
+// Load background textures
+const textures = {
+  livingRoom: new THREE.TextureLoader().load('{{ url_for('static', filename='images/bg/living_room.jpg') }}'),
+  workstation: new THREE.TextureLoader().load('{{ url_for('static', filename='images/bg/workstation.jpg') }}'),
+  diningRoom: new THREE.TextureLoader().load('{{ url_for('static', filename='images/bg/dining_room.jpg') }}'),
+  bedroom: new THREE.TextureLoader().load('{{ url_for('static', filename='images/bg/bedroom.jpg') }}')
+};
+
+// Function to change background texture
+function changeBackground(texture) {
+  scene.background = texture;
+}
+
+// Event listeners for each button
+document.getElementById('livingRoom').addEventListener('click', function() {
+  changeBackground(textures.livingRoom);
+});
+
+document.getElementById('workstation').addEventListener('click', function() {
+  changeBackground(textures.workstation);
+});
+
+document.getElementById('diningRoom').addEventListener('click', function() {
+  changeBackground(textures.diningRoom);
+});
+
+document.getElementById('bedroom').addEventListener('click', function() {
+  changeBackground(textures.bedroom);
+});
+
+// Start rendering the scene
+function animate() {
+  requestAnimationFrame(animate);
+  renderer.render(scene, camera);
+}
+
+animate();
 
     // Append renderer to the viewer container
     const viewerContainer = document.getElementById('viewer-container');
@@ -169,8 +219,8 @@
 
       scene.traverse(function (object) {
         if (object.isMesh) {
-          object.rotation.x += 0.01;
-          object.rotation.y += 0.01;
+          object.rotation.x = -45;
+          object.rotation.z += 0.01;
         }
       });
 
