@@ -1,0 +1,296 @@
+/* 页面整体布局 */
+.page-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 主要内容区域 */
+main {
+  width: 100%;
+  min-width: 1360px;
+}
+
+/* 购物车标题 */
+.cart-title {
+  font-size: 32px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 40px;
+}
+
+/* 购物车商品项 */
+.cart-item {
+  width: 1360px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  padding: 30px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  margin-bottom: 30px;
+}
+
+/* 商品图片容器 */
+.cart-item-image {
+  width: 200px;
+  height: 200px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* 商品图片样式 */
+.cart-item-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 商品信息区域 */
+.cart-item-info {
+  flex: 1;
+  padding: 0 40px;
+}
+
+/* 商品标题 */
+.cart-item-title {
+  font-size: 24px;
+  font-weight: 600;
+  color: #284f49;
+  margin-bottom: 12px;
+}
+
+/* 商品描述 */
+.cart-item-desc {
+  color: #666;
+  font-size: 16px;
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+/* 商品尺寸信息 */
+.cart-item-size {
+  margin-bottom: 16px;
+}
+
+/* 尺寸标签 */
+.cart-item-size span {
+  color: #ff6700;
+}
+
+/* 商品价格 */
+.cart-item-price {
+  font-size: 24px;
+  font-weight: 600;
+  color: #284f49;
+}
+
+/* 删除按钮容器 */
+.cart-item-delete {
+  width: 80px;
+  height:80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+/* 删除图标 */
+.cart-item-delete img {
+  width: 80px;
+  height: 80px;
+  opacity: 0.6;
+  transition: opacity 0.3s ease;
+}
+
+/* 删除图标悬停效果 */
+.cart-item-delete:hover img {
+  opacity: 1;
+}
+
+/* 支付部分 */
+.payment-section {
+  width: 1360px;
+  margin: 60px auto 0;
+  padding: 0 100px;
+}
+
+/* 支付标题 */
+.payment-title {
+  font-size: 20px;
+  color: #666;
+  margin-bottom: 24px;
+}
+
+/* 卡片信息区域 */
+.card-info {
+  margin-bottom: 40px;
+}
+
+/* 卡号输入框 */
+.card-number {
+  font-size: 18px;
+  color: #333;
+  font-weight: 600;
+  margin-bottom: 24px;
+  padding: 20px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+}
+
+/* 卡片详细信息布局 */
+.card-details {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+/* 输入组样式 */
+.input-group {
+  flex: 1;
+}
+
+/* 输入框通用样式 */
+input {
+  width: 100%;
+  height: 48px;
+  padding: 0 16px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 16px;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+/* 输入框焦点状态 */
+input:focus {
+  border-color: #ff6700;
+  box-shadow: 0 0 0 3px rgba(255, 103, 0, 0.1);
+}
+
+/* 购物车总计区域 */
+.cart-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 40px;
+  margin-bottom: 100px;
+  padding-top: 30px;
+  border-top: 1px solid #e0e0e0;
+}
+
+/* 总计信息布局 */
+.total-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* 价格行布局 */
+.price-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* 总计标签 */
+.total-label {
+  font-size: 48px;
+  color: #666;
+  font-weight: 500;
+}
+
+/* 总价格 */
+.total-price {
+  font-size: 72px;
+  font-weight: 600;
+  color: #ff6700;
+}
+
+/* 总计备注 */
+.total-note {
+  font-size: 14px;
+  color: #999;
+  margin-left: 4px;
+}
+
+/* 结账按钮 */
+.checkout-button {
+  display: inline-block;
+  background: #284f49;
+  color: #fff;
+  padding: 16px 48px;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+/* 结账按钮悬停效果 */
+.checkout-button:hover {
+  background: #1e3d38;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(40, 79, 73, 0.2);
+}
+
+/* 卡片类型选择区域 */
+.card-type {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    margin-bottom: 24px;
+}
+
+/* 卡片类型图标 */
+.card-type img {
+    height: 30px;
+    width: auto;
+}
+
+/* 卡片类型文本 */
+.card-type-text {
+    font-size: 16px;
+    color: #333;
+    font-weight: 600;
+}
+
+/* 第一部分布局 */
+.section-1 {
+    position: relative;
+    width: 100%;
+    min-width: 1360px;
+    height: 600px;
+    margin-bottom: 60px;
+}
+
+/* 横幅背景图 */
+.banner-bg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* 横幅标题 */
+.banner-title {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 72px;
+    font-weight: 600;
+    color: #fff;
+    letter-spacing: -1px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* 购物车内容区域 */
+.cart-content {
+    width: 1360px;
+    margin: 0 auto;
+    padding: 0 100px;
+}

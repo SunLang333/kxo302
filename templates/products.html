@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Products </title>
+  <link rel="stylesheet" href="static/css/public.css">
+  <link rel="stylesheet" href="static/css/products.css">
+</head>
+
+<body>
+
+  <div class="page-wrapper">
+    <header>
+      <div class="container">
+          <div class="header-content">
+              <!-- Left Navigation -->
+              <nav class="nav-left">
+                  <a href="/" class="nav-item active">AR Home</a>
+                  <a href="/spacebuilder" class="nav-item">
+                      Space Builder
+                  </a>
+                  <a href="/products" class="nav-item">
+                      Products
+                  </a>
+                  <a href="/download" class="nav-item">
+                      Download
+                  </a>
+              </nav>
+
+          </div>
+      </div>
+  </header>
+
+    <main style="flex: 1;">
+      <section class="section-1">
+        <img src="static/images/img/1.png" alt="Products Banner" class="banner-bg">
+        <h1 class="banner-title">Products</h1>
+      </section>
+      <section class="section-2">
+
+
+        <!-- <a href="cart.html" class="product-item">
+          <img src="../images/img/3.png" alt="Product 3">
+        </a>
+        <a href="cart.html" class="product-item">
+          <img src="../images/img/4.png" alt="Product 4">
+        </a>
+        <a href="cart.html" class="product-item">
+          <img src="../images/img/5.png" alt="Product 5">
+        </a>
+        <a href="cart.html" class="product-item">
+          <img src="../images/img/6.png" alt="Product 6">
+        </a>
+        <a href="cart.html" class="product-item">
+          <img src="../images/img/12.png" alt="Product 12">
+        </a>
+        <a href="cart.html" class="product-item">
+          <img src="../images/img/13.png" alt="Product 13">
+        </a> -->
+      </section>
+
+
+      <section class="section-3">
+        <div class="section-3-main">
+          <div class="section-3-title">Let’s make your space
+            amazing together.</div>
+          <a href="" class="cta-button-3">LET'S GET STARTED</a>
+        </div>
+      </section>
+    </main>
+
+
+
+
+    
+  </div>
+  <script src="static/js/data.js"></script>
+  <script>
+    const section2 = document.querySelector('.section-2');
+    for (let i = 0; i < products.length; i++) {
+
+      if (products[i].id.includes('1')) continue;
+
+      const productItem = document.createElement('div');
+      productItem.href = `cart.html?id=${products[i].id}`;
+      productItem.classList.add('product-item');
+      productItem.innerHTML = `<img src="${products[i].image}" alt="${products[i].type}">`;
+      section2.appendChild(productItem);
+    }
+  </script>
+</body>
+
+</html>

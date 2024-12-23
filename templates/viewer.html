@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Three.js Web Viewer with PLY Colors</title>
+  <style>
+    body { margin: 0; }
+    canvas { display: block; }
+  </style>
+</head>
+<body>
+  <!-- Three.js & PLY Loader -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/PLYLoader.js"></script>
+
+  <script>
+    // Create scene, camera, and renderer
+    const scene = new THREE.Scene();
+    scene.up.set(0, 0, 1);
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+
+    // Load the PLY file
+    const loader = new THREE.PLYLoader();
+    loader.load('/static/example_mesh_0.ply', function (geometry) {
+      // If you'd like to see smoother shading (only necessary for non-flat shading):
+      geometry.computeVertexNormals();
+
+      // Create a material that respects vertex colors
+      const material = new THREE.MeshBasicMaterial({ vertexColors: THREE.VertexColors });
+
+      // Create the mesh
+      const mesh = new THREE.Mesh(geometry, material);
+      scene.add(mesh);
+    });
+
+    camera.position.z = 5;
+
+    // Animation loop
+    function animate() {
+      requestAnimationFrame(animate);
+
+      scene.traverse(function (object) {
+        if (object.isMesh) {
+          object.rotation.x += 0.01;
+          object.rotation.y += 0.01;
+        }
+      });
+
+      renderer.render(scene, camera);
+    }
+    animate();
+  </script>
+</body>
+</html>

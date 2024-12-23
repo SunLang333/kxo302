@@ -1,0 +1,119 @@
+/* 基础布局 - 页面包装器 */
+.page-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 第一部分 - 横幅区域 */
+.section-1 {
+  position: relative;
+  min-width: 1360px;
+  height: 600px;
+  width: 100%;
+}
+
+/* 横幅背景图片 */
+.banner-bg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 横幅标题 */
+.banner-title {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 72px;
+  font-weight: 600;
+  color: #fff;
+  letter-spacing: -1px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* 第二部分 - 产品网格布局 */
+.section-2 {
+  min-width: 1360px;
+  width: 100%;
+  padding: 60px 100px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 4%;
+
+  row-gap: 40px;
+}
+
+/* 产品项样式 */
+.section-2 .product-item {
+  width: 25%;
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  margin-bottom: 40px;
+}
+
+/* 产品项悬停效果 */
+.section-2 .product-item:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+/* 产品图片样式 */
+.section-2 .product-item img {
+  width: 100%;
+  /* height: 100%; */
+  object-fit: cover;
+}
+
+/* 第三部分 - 行动号召区域 */
+.section-3 {
+  width: 70%;
+  height: 500px;
+  min-width: 1360px;
+  background: #fff;
+  position: relative;
+}
+
+/* 第三部分主要内容区域 */
+.section-3-main {
+  position: absolute;
+  bottom: -100px;
+  width: 100%;
+  height: 100%;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
+  background-color: #fff;
+}
+
+/* 第三部分标题 */
+.section-3-title {
+  font-size: 72px;
+  margin-left: 150px;
+  font-weight: 600;
+  color: #4d533c;
+  line-height: 1.2;
+  letter-spacing: -1px;
+  max-width: 900px;
+}
+
+/* 行动号召按钮 */
+.cta-button-3 {
+  margin-left: 150px;
+  display: inline-block;
+  color: #d4d6d4;
+  padding: 100px 0;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+  text-align: center;
+  text-decoration: underline;
+  text-transform: uppercase;
+}

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Space-Builder</title>
+  <link rel="stylesheet" href="static/css/public.css">
+  <link rel="stylesheet" href="static/css/space-builder.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/PLYLoader.js"></script>
+</head>
+
+<body>
+
+  <div class="page-wrapper">
+    <header>
+      <div class="container">
+          <div class="header-content">
+              <!-- Left Navigation -->
+              <nav class="nav-left">
+                  <a href="/" class="nav-item active">AR Home</a>
+                  <a href="/spacebuilder" class="nav-item">
+                      Space Builder
+                  </a>
+                  <a href="/products" class="nav-item">
+                      Products
+                  </a>
+                  <a href="/download" class="nav-item">
+                      Download
+                  </a>
+              </nav>
+
+          </div>
+      </div>
+  </header>
+
+    <main style="flex: 1;">
+      <!-- Banner Section -->
+      <section class="section-1">
+        <img src="static/images/img/1.png" alt="Cart Banner" class="banner-bg">
+        <h1 class="banner-title">Transform Your Space into a Dream Home</h1>
+    </section>
+      <!-- Content Container -->
+      <div class="content-container">
+        <!-- Left Sidebar -->
+        <aside class="sidebar">
+          <h2 class="sidebar-title">Select Background</h2>
+          <div class="box"></div>
+          <div class="category-grid">
+            <div class="category-item">
+              <img src="static/images/img/7.png" alt="Living room">
+        
+            </div>
+            <div class="category-item">
+              <img src="static/images/img/8.png" alt="Workstation">
+    
+            </div>
+            <div class="category-item">
+              <img src="static/images/img/9.png" alt="Popular">
+              
+            </div>
+            <div class="category-item">
+              <img src="static/images/img/10.png" alt="Bedroom">
+       
+            </div>
+          </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <div class="main-content">
+          <div id="viewer-container" style="height: 960px; width: 475;"></div>
+        </div>
+      </div>
+    </main>
+  </div>
+</body>
+
+<script>
+  // Set up scene, camera, and renderer
+  const scene = new THREE.Scene();
+  scene.up.set(0, 0, 1);
+  const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+  const renderer = new THREE.WebGLRenderer();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+
+  // Append renderer to the viewer container
+  const viewerContainer = document.getElementById('viewer-container');
+  viewerContainer.appendChild(renderer.domElement);
+
+  // Load PLY model
+  const loader = new THREE.PLYLoader();
+  loader.load('/static/example_mesh_0.ply', function (geometry) {
+    geometry.computeVertexNormals();
+    const material = new THREE.MeshBasicMaterial({ vertexColors: true });
+    const mesh = new THREE.Mesh(geometry, material);
+    scene.add(mesh);
+  });
+
+  // Set camera position
+  camera.position.z = 2;
+
+  // Handle window resize
+  window.addEventListener('resize', () => {
+    const width = viewerContainer.clientWidth;
+    const height = viewerContainer.clientHeight;
+    renderer.setSize(width, height);
+    camera.aspect = width / height;
+    camera.updateProjectionMatrix();
+  });
+
+  // Animation loop
+  function animate() {
+      requestAnimationFrame(animate);
+
+      scene.traverse(function (object) {
+        if (object.isMesh) {
+          object.rotation.x = -45;
+          object.rotation.z += 0.01;
+        }
+      });
+
+      renderer.render(scene, camera);
+    }
+    animate();
+</script>
+
+</html>
