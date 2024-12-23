@@ -5,8 +5,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Space-Builder</title>
-  <link rel="stylesheet" href="static/css/public.css">
-  <link rel="stylesheet" href="static/css/space-builder.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/public.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/space-builder.css') }}">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/PLYLoader.js"></script>
 </head>
@@ -19,8 +19,8 @@
           <div class="header-content">
               <!-- Left Navigation -->
               <nav class="nav-left">
-                  <a href="/" class="nav-item active">AR Home</a>
-                  <a href="/spacebuilder" class="nav-item">
+                  <a href="/" class="nav-item">AR Home</a>
+                  <a href="/spacebuilder" class="nav-item active">
                       Space Builder
                   </a>
                   <a href="/products" class="nav-item">
@@ -33,96 +33,122 @@
 
           </div>
       </div>
-  </header>
+    </header>
 
     <main style="flex: 1;">
+      <!-- Flash Messages -->
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <div class="flash-messages">
+            {% for category, message in messages %}
+              <div class="alert alert-{{ category }}">
+                {{ message }}
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endwith %}
+
       <!-- Banner Section -->
       <section class="section-1">
-        <img src="static/images/img/1.png" alt="Cart Banner" class="banner-bg">
+        <img src="{{ url_for('static', filename='images/img/1.png') }}" alt="Cart Banner" class="banner-bg">
         <h1 class="banner-title">Transform Your Space into a Dream Home</h1>
-    </section>
+      </section>
+      
       <!-- Content Container -->
       <div class="content-container">
-        <!-- Left Sidebar -->
+        <!-- Left Sidebar with Form -->
         <aside class="sidebar">
           <h2 class="sidebar-title">Select Background</h2>
-          <div class="box"></div>
+          <div class="box">
+            <form action="{{ url_for('generate') }}" method="POST">
+              <div class="form-group">
+                <label for="prompt">Enter your prompt:</label>
+                <input type="text" id="prompt" name="prompt" class="form-control" placeholder="e.g., A modern living room with smart lighting" required>
+              </div>
+              <button type="submit" class="btn-submit">Generate Model</button>
+            </form>
+          </div>
           <div class="category-grid">
             <div class="category-item">
-              <img src="static/images/img/7.png" alt="Living room">
-        
+              <img src="{{ url_for('static', filename='images/img/7.png') }}" alt="Living room">
             </div>
             <div class="category-item">
-              <img src="static/images/img/8.png" alt="Workstation">
-    
+              <img src="{{ url_for('static', filename='images/img/8.png') }}" alt="Workstation">
             </div>
             <div class="category-item">
-              <img src="static/images/img/9.png" alt="Popular">
-              
+              <img src="{{ url_for('static', filename='images/img/9.png') }}" alt="Popular">
             </div>
             <div class="category-item">
-              <img src="static/images/img/10.png" alt="Bedroom">
-       
+              <img src="{{ url_for('static', filename='images/img/10.png') }}" alt="Bedroom">
             </div>
           </div>
         </aside>
 
         <!-- Main Content Area -->
         <div class="main-content">
-          <div id="viewer-container" style="height: 960px; width: 475;"></div>
+          <div id="viewer-container" style="height: 960px; width: 475px;"></div>
         </div>
       </div>
     </main>
   </div>
-</body>
 
-<script>
-  // Set up scene, camera, and renderer
-  const scene = new THREE.Scene();
-  scene.up.set(0, 0, 1);
-  const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-  const renderer = new THREE.WebGLRenderer();
-  renderer.setSize(window.innerWidth, window.innerHeight);
+  <script>
+    // Set up scene, camera, and renderer
+    const scene = new THREE.Scene();
+    scene.up.set(0, 0, 1);
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
 
-  // Append renderer to the viewer container
-  const viewerContainer = document.getElementById('viewer-container');
-  viewerContainer.appendChild(renderer.domElement);
+    // Append renderer to the viewer container
+    const viewerContainer = document.getElementById('viewer-container');
+    viewerContainer.appendChild(renderer.domElement);
 
-  // Load PLY model
-  const loader = new THREE.PLYLoader();
-  loader.load('/static/example_mesh_0.ply', function (geometry) {
-    geometry.computeVertexNormals();
-    const material = new THREE.MeshBasicMaterial({ vertexColors: true });
-    const mesh = new THREE.Mesh(geometry, material);
-    scene.add(mesh);
-  });
-
-  // Set camera position
-  camera.position.z = 2;
-
-  // Handle window resize
-  window.addEventListener('resize', () => {
-    const width = viewerContainer.clientWidth;
-    const height = viewerContainer.clientHeight;
-    renderer.setSize(width, height);
-    camera.aspect = width / height;
-    camera.updateProjectionMatrix();
-  });
-
-  // Animation loop
-  function animate() {
-      requestAnimationFrame(animate);
-
-      scene.traverse(function (object) {
-        if (object.isMesh) {
-          object.rotation.x = -45;
-          object.rotation.z += 0.01;
-        }
+    // Function to load a PLY model
+    function loadPLYModel(url) {
+      const loader = new THREE.PLYLoader();
+      loader.load(url, function (geometry) {
+        geometry.computeVertexNormals();
+        const material = new THREE.MeshBasicMaterial({ vertexColors: THREE.VertexColors });
+        const mesh = new THREE.Mesh(geometry, material);
+        scene.add(mesh);
       });
-
-      renderer.render(scene, camera);
     }
-    animate();
-</script>
+
+    // Load the latest model if available
+    {% if model_url %}
+      loadPLYModel("{{ model_url }}");
+    {% endif %}
+
+    // Set camera position
+    camera.position.z = 2;
+
+    // Handle window resize
+    window.addEventListener('resize', () => {
+      const width = viewerContainer.clientWidth;
+      const height = viewerContainer.clientHeight;
+      renderer.setSize(width, height);
+      camera.aspect = width / height;
+      camera.updateProjectionMatrix();
+    });
+
+    // Animation loop
+    function animate() {
+        requestAnimationFrame(animate);
+
+        scene.traverse(function (object) {
+          if (object.isMesh) {
+            object.rotation.x += 0.01;
+            object.rotation.y += 0.01;
+          }
+        });
+
+        renderer.render(scene, camera);
+      }
+      animate();
+  </script>
+
+</body>
 
 </html>

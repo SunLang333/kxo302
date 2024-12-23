@@ -160,3 +160,32 @@ main {
 .coming-soon-link:hover .airplane-icon {
   transform: scale(1.02);
 }
+
+
+/* space-builder.css */
+
+/* Flash Messages */
+.flash-messages {
+  margin: 20px;
+}
+
+.alert {
+  padding: 15px;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.alert-success {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.alert-warning {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.alert-danger {
+  background-color: #f8d7da;
+  color: #721c24;
+}
