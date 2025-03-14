@@ -5,3 +5,6 @@ shap_e_model_cache/
 shap_e.egg-info/
 
 venv/
+
+static/generated_model_0.obj
+static/generated_model_0.ply
